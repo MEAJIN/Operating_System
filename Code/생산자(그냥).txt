@@ -1,0 +1,51 @@
+#include<pthread.h>
+#include<stdio.h>
+
+void *t_function(void *data)
+{
+        pid_t pid;
+        pthread_t tid;
+
+        pid = getpid();
+        tid = pthread_self();
+
+        char* thread_name = (char*)data;
+        int i=0;
+
+        while(i<3)
+        {
+                printf("[%s] pid:%u, tid:%x ---- %d\n",thread_name,(unsigned int)pid, (unsigned int)tid, i);
+                i++;
+                sleep(1);
+}
+
+
+int main(int argc, char *argv[])
+{
+        pthread_t producer,consumer;
+        char p_name[] = "producer";
+        char c_name[] = "consumer";
+        int status;
+
+        sleep(1);
+        p_id = pthread_create(&producer,NULL,t_function,(void *)p_name);
+        sleep(1);
+        if(p_id < 0 )
+        {
+                perror("producer thread not create :");
+                exit(0);
+        }
+        sleep(1);
+        c_id = pthread_create(&consumer,NULL,t_function,(void *)c_name);
+        if(c_id < 0)
+        {
+                perror("consumer thread not create :");
+                exit(0);
+        }
+        sleep(1);
+
+        pthread_join(producer,(void **)&status);
+        pthread_join(consumer,(void **)&status);
+
+        return 0;
+}
